@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     debug: bool = False
     
     # База данных
-    database_url: str = "postgresql://investv2:password@localhost:5432/investv2"
+    database_url: str = "sqlite:///./migrations/investv2.db"
     
     # Redis
     redis_url: str = "redis://localhost:6379/0"
