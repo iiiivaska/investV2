@@ -51,6 +51,9 @@ def set_tinkoff_token(
     db: Session = Depends(get_db),
 ) -> None:
     """Установить/обновить Tinkoff API токен для текущего пользователя."""
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database unavailable")
+    
     if not payload.tinkoff_api_token:
         raise HTTPException(status_code=400, detail="Token is required")
     current_user.tinkoff_api_token = payload.tinkoff_api_token

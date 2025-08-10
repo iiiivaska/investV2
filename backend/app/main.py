@@ -41,7 +41,14 @@ app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytic
 async def startup_event():
     """Инициализация при старте"""
     print("Starting InvestV2 API...")
-    init_database()
+    print("Initializing database connection...")
+    try:
+        init_database()
+        print("Database initialization completed")
+    except Exception as e:
+        print(f"Database initialization failed: {e}")
+        print("Application will continue without database")
+    print("InvestV2 API startup completed")
 
 
 @app.get("/")
@@ -52,6 +59,16 @@ async def root():
         "version": "1.0.0",
         "status": "running",
         "docs": "/docs",
+    }
+
+
+@app.get("/test")
+async def test():
+    """Простой тестовый endpoint без зависимостей"""
+    return {
+        "message": "Test endpoint working!",
+        "timestamp": "2024-01-01T00:00:00Z",
+        "status": "ok"
     }
 
 
