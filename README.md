@@ -1,6 +1,6 @@
 # 📈 InvestV2
 
-![CI](https://github.com/iiiivaska/investV2/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/ваш-username/investV2/actions/workflows/ci.yml/badge.svg)
 
 Серверное приложение для управления инвестиционным портфелем с интеграцией Tinkoff Invest API.
 
@@ -121,14 +121,6 @@ python3 postgres/switch_db.py check
 
 *Все endpoints возвращают JSON и готовы для разработки.*
 
-## ✅ CI (GitHub Actions)
-
-- Автоматический запуск `pytest` на каждый push и pull request.
-- Ветка `main` должна мержиться только с зелёным статусом CI.
-
-Как включить обязательное прохождение тестов:
-- В настройках репозитория → Branches → Add branch protection rule → Включить “Require status checks to pass before merging” и выбрать джобу `tests (pytest)`.
-
 ## 🐳 Docker
 
 ```bash
@@ -142,6 +134,16 @@ docker-compose up --build
 - PostgreSQL (порт 5432)
 - Redis (порт 6379)
 - pgAdmin (порт 5050)
+
+## 🔄 CI (GitHub Actions)
+
+Тесты запускаются автоматически при каждом push/PR в ветку `main`.
+
+- Файл workflow: `.github/workflows/ci.yml`
+- Python: 3.11
+- Команда: `pytest -q`
+
+Чтобы статус CI был обязательным для мерджа, включите его в GitHub Repository Settings → Branches → Branch protection rules.
 
 ## 🔐 Безопасность
 

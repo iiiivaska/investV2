@@ -219,6 +219,7 @@ server.log
 # Project specific
 backend/alembic/versions/
 backend/static/uploads/
+backend/tests/test_*.py
 
 # Secrets
 *.pem
