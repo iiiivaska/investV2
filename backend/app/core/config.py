@@ -16,8 +16,9 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
     debug: bool = False
 
-    # База данных - PostgreSQL по умолчанию
-    database_url: str = "postgresql://investv2:password@localhost:5432/investv2"
+    # База данных - PostgreSQL
+    # Приоритет: DATABASE_URL > отдельные параметры > значения по умолчанию
+    database_url: Optional[str] = None
 
     # PostgreSQL настройки (для локальной разработки)
     postgres_host: str = "localhost"
@@ -56,9 +57,23 @@ class Settings(BaseSettings):
         return v
 
     @property
-    def postgresql_url(self) -> str:
-        """Создает URL для PostgreSQL из отдельных параметров"""
+    def postgresql_url(self) -> Optional[str]:
+        """Создает URL для PostgreSQL из отдельных параметров или возвращает DATABASE_URL"""
+        # Если задан DATABASE_URL, используем его
+        if self.database_url:
+            return self.database_url
+        
+        # Иначе создаем из отдельных параметров
         return f"postgresql://{self.postgres_user}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
+
+    @property
+    def has_database_config(self) -> bool:
+        """Проверяет, настроена ли база данных"""
+        return bool(self.database_url) or (
+            self.postgres_host != "localhost" or 
+            self.postgres_user != "investv2" or 
+            self.postgres_password != "password"
+        )
 
     class Config:
         env_file = ".env"

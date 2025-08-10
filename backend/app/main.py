@@ -40,15 +40,31 @@ app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytic
 @app.on_event("startup")
 async def startup_event():
     """Инициализация при старте"""
+    print("=" * 50)
     print("Starting InvestV2 API...")
+    print(f"App: {settings.app_name} v{settings.app_version}")
+    print(f"Debug mode: {settings.debug}")
+    
+    # Проверяем конфигурацию БД
+    print(f"Database configured: {settings.has_database_config}")
+    if settings.database_url:
+        print(f"Database URL: {settings.database_url[:20]}...")
+    else:
+        print("Using default database configuration")
+    
     print("Initializing database connection...")
     try:
-        init_database()
-        print("Database initialization completed")
+        db_success = init_database()
+        if db_success:
+            print("✅ Database initialization completed successfully")
+        else:
+            print("⚠️  Database initialization skipped - no configuration")
     except Exception as e:
-        print(f"Database initialization failed: {e}")
+        print(f"❌ Database initialization failed: {e}")
         print("Application will continue without database")
+    
     print("InvestV2 API startup completed")
+    print("=" * 50)
 
 
 @app.get("/")
