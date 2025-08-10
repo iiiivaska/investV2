@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1 import analytics, auth, instruments, portfolio, users
 from app.core.config import get_settings
+from app.database.database import init_database
 
 settings = get_settings()
 
@@ -34,6 +35,13 @@ app.include_router(
     instruments.router, prefix="/api/v1/instruments", tags=["instruments"]
 )
 app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytics"])
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Инициализация при старте"""
+    print("Starting InvestV2 API...")
+    init_database()
 
 
 @app.get("/")
