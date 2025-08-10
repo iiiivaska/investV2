@@ -2,13 +2,12 @@
 Утилиты безопасности: хеширование паролей и работа с JWT токенами.
 """
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional
 
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
 from app.core.config import get_settings
-
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 settings = get_settings()
@@ -39,7 +38,9 @@ def _create_token(
     }
     if extra_claims:
         to_encode.update(extra_claims)
-    encoded_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
+    encoded_jwt = jwt.encode(
+        to_encode, settings.secret_key, algorithm=settings.algorithm
+    )
     return encoded_jwt
 
 
@@ -58,9 +59,9 @@ def create_refresh_token(user_id: int, email: str) -> str:
 def decode_token(token: str) -> Dict[str, Any]:
     """Декодировать и проверить JWT токен. Бросает исключение при ошибке."""
     try:
-        payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
+        payload = jwt.decode(
+            token, settings.secret_key, algorithms=[settings.algorithm]
+        )
         return payload
     except JWTError as exc:
         raise exc
-
-

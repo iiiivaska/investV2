@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from contextlib import AbstractContextManager
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 
 @dataclass
@@ -30,7 +30,7 @@ class TInvestClient(AbstractContextManager["TInvestClient"]):
     def __init__(self, token: str) -> None:
         self._token = token
         self._base_client = None  # базовый контекстный менеджер Client
-        self._services = None     # объект сервисов, возвращаемый __enter__
+        self._services = None  # объект сервисов, возвращаемый __enter__
 
     def __enter__(self) -> "TInvestClient":  # type: ignore[override]
         from tinkoff.invest import Client  # локальный импорт
@@ -65,5 +65,3 @@ class TInvestClient(AbstractContextManager["TInvestClient"]):
                 )
             )
         return accounts
-
-

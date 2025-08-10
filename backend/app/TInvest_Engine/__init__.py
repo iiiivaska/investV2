@@ -3,5 +3,3 @@ TInvest_Engine: Сервис-обертка для взаимодействия 
 
 Использует официальный SDK tinkoff-investments (production endpoint).
 """
-
-

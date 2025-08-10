@@ -4,7 +4,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1 import auth, users, portfolio, instruments, analytics
+from app.api.v1 import analytics, auth, instruments, portfolio, users
 from app.core.config import get_settings
 
 settings = get_settings()
@@ -30,7 +30,9 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["authentication"])
 app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
 app.include_router(portfolio.router, prefix="/api/v1/portfolio", tags=["portfolio"])
-app.include_router(instruments.router, prefix="/api/v1/instruments", tags=["instruments"])
+app.include_router(
+    instruments.router, prefix="/api/v1/instruments", tags=["instruments"]
+)
 app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytics"])
 
 
@@ -41,24 +43,17 @@ async def root():
         "message": "Hello World from InvestV2 API",
         "version": "1.0.0",
         "status": "running",
-        "docs": "/docs"
+        "docs": "/docs",
     }
 
 
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "message": "InvestV2 API is running"
-    }
+    return {"status": "healthy", "message": "InvestV2 API is running"}
 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(
-        "app.main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True
-    )
+
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

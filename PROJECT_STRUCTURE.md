@@ -62,7 +62,6 @@ investV2/
 │   │   └── README.md               # 📚 Документация миграций
 │   ├── venv/                         # Виртуальное окружение Python
 │   ├── requirements.txt              # 📦 Зависимости Python
-│   ├── .github/workflows/ci.yml      # 🤖 CI: запуск тестов на GitHub Actions
 │   ├── env.example                   # 🔧 Пример переменных окружения
 │   ├── run_dev.py                    # 🏃 Скрипт запуска для разработки
 │   ├── migrate.py                    # 🛠️ Утилита управления миграциями
@@ -129,7 +128,6 @@ investV2/
 - [x] Реализация JWT аутентификации
 - [x] Интеграция с Tinkoff Invest API
 - [x] Добавление тестов
-- [x] Настройка CI: автоматический запуск тестов в GitHub Actions
 - [ ] Настройка CI/CD pipeline
 
 ## 🚀 Как запустить

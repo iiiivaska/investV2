@@ -1,13 +1,7 @@
 """
 Pydantic схемы для валидации данных
 """
-from .user import UserCreate, UserRead, UserUpdate
 from .auth import Token, TokenData
+from .user import UserCreate, UserRead, UserUpdate
 
-__all__ = [
-    "UserCreate", 
-    "UserRead", 
-    "UserUpdate",
-    "Token",
-    "TokenData"
-]
+__all__ = ["UserCreate", "UserRead", "UserUpdate", "Token", "TokenData"]

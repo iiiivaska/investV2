@@ -12,11 +12,7 @@ async def portfolio_hello():
     return {
         "message": "Hello World from Portfolio API",
         "module": "portfolio",
-        "endpoints": [
-            "/positions",
-            "/performance",
-            "/history"
-        ]
+        "endpoints": ["/positions", "/performance", "/history"],
     }
 
 

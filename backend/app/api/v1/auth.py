@@ -12,11 +12,10 @@ from app.core.security import (
     hash_password,
     verify_password,
 )
-from app.schemas.auth import RefreshTokenRequest, Token
-from app.schemas.user import UserCreate, UserRead
 from app.database.database import get_db
 from app.models.user import User
-
+from app.schemas.auth import RefreshTokenRequest, Token
+from app.schemas.user import UserCreate, UserRead
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
@@ -67,7 +66,9 @@ def login(
     """Вход пользователя: возвращает access и refresh токены"""
     user = db.query(User).filter(User.email == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
+        )
 
     access_token = create_access_token(user_id=user.id, email=user.email)
     refresh_token = create_refresh_token(user_id=user.id, email=user.email)
@@ -79,7 +80,9 @@ def refresh_token(payload: RefreshTokenRequest) -> Token:
     """Обновление пары токенов по refresh токену"""
     data = decode_token(payload.refresh_token)
     if data.get("type") != "refresh":
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid token type")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid token type"
+        )
 
     user_id = int(data["sub"])  # subject — это user_id
     email = data.get("email", "")

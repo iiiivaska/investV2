@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session
 
 from app.core.deps import get_current_user
 from app.database.database import get_db
-from app.TInvest_Engine.client import TInvestClient
 from app.models.user import User
+from app.TInvest_Engine.client import TInvestClient
 
 router = APIRouter()
 
@@ -50,11 +50,17 @@ def tinkoff_demo(
     В качестве демонстрации запрашиваем список аккаунтов пользователя.
     """
     if not current_user.tinkoff_api_token:
-        raise HTTPException(status_code=400, detail="Tinkoff API token is not set for this user")
+        raise HTTPException(
+            status_code=400, detail="Tinkoff API token is not set for this user"
+        )
 
     try:
         with TInvestClient(current_user.tinkoff_api_token) as ti:
             accounts = [account.__dict__ for account in ti.list_accounts()]
-        return {"source": "tinkoff", "endpoint": "users.get_accounts", "accounts": accounts}
+        return {
+            "source": "tinkoff",
+            "endpoint": "users.get_accounts",
+            "accounts": accounts,
+        }
     except Exception as exc:  # noqa: BLE001
         raise HTTPException(status_code=502, detail=f"Tinkoff API call failed: {exc}")

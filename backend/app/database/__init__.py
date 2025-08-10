@@ -1,6 +1,6 @@
 """
 Настройка базы данных
 """
-from .database import get_db, engine, SessionLocal
+from .database import SessionLocal, engine, get_db
 
 __all__ = ["get_db", "engine", "SessionLocal"]

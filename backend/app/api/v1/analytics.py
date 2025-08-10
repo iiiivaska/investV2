@@ -12,11 +12,7 @@ async def analytics_hello():
     return {
         "message": "Hello World from Analytics API",
         "module": "analytics",
-        "endpoints": [
-            "/dashboard",
-            "/reports",
-            "/charts"
-        ]
+        "endpoints": ["/dashboard", "/reports", "/charts"],
     }
 
 

@@ -1,7 +1,5 @@
 # 📈 InvestV2
 
-![CI](https://github.com/ваш-username/investV2/actions/workflows/ci.yml/badge.svg)
-
 Серверное приложение для управления инвестиционным портфелем с интеграцией Tinkoff Invest API.
 
 ## 🎯 Описание
@@ -40,7 +38,8 @@ python run_dev.py
 - **Структура проекта**: [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 - **Руководство backend**: [backend/README.md](backend/README.md)
 - **PostgreSQL настройка**: [backend/postgres/README.md](backend/postgres/README.md)
- - **TInvest_Engine сервис**: [backend/app/TInvest_Engine/README.md](backend/app/TInvest_Engine/README.md)
+- **TInvest_Engine сервис**: [backend/app/TInvest_Engine/README.md](backend/app/TInvest_Engine/README.md)
+- **CI/CD Pipeline**: [CI_CD_README.md](CI_CD_README.md)
 
 ## 🏗️ Архитектура
 
@@ -135,16 +134,6 @@ docker-compose up --build
 - Redis (порт 6379)
 - pgAdmin (порт 5050)
 
-## 🔄 CI (GitHub Actions)
-
-Тесты запускаются автоматически при каждом push/PR в ветку `main`.
-
-- Файл workflow: `.github/workflows/ci.yml`
-- Python: 3.11
-- Команда: `pytest -q`
-
-Чтобы статус CI был обязательным для мерджа, включите его в GitHub Repository Settings → Branches → Branch protection rules.
-
 ## 🔐 Безопасность
 
 - JWT токены для аутентификации (OAuth2 password flow)
@@ -169,6 +158,7 @@ docker-compose up --build
 - [x] JWT аутентификация
 - [ ] Базовые CRUD операции
 - [x] Интеграция с Tinkoff API
+- [x] CI/CD Pipeline с автоматическим тестированием
 
 ### 🚀 Фаза 3: Расширенные возможности
 - [ ] Аналитика портфеля

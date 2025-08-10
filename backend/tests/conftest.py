@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Generator
 import os
 import sys
+from typing import Generator
 
 import pytest
 from fastapi.testclient import TestClient
@@ -13,20 +13,20 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-from app.main import app
 from app.database.database import get_db
+from app.main import app
 from app.models.base import Base
 from app.models.user import User  # noqa: F401 - ensure model is registered
 
+TEST_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
 
-# Create a dedicated SQLite database for tests
-TEST_DATABASE_URL = "sqlite:///./test.db"
-
-
-engine = create_engine(
-    TEST_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-)
+if TEST_DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(
+        TEST_DATABASE_URL,
+        connect_args={"check_same_thread": False},
+    )
+else:
+    engine = create_engine(TEST_DATABASE_URL)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
@@ -57,5 +57,3 @@ def test_client(setup_database: None) -> Generator[TestClient, None, None]:
         yield client
     finally:
         app.dependency_overrides.clear()
-
-
