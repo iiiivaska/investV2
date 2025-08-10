@@ -14,6 +14,9 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+# Set PYTHONPATH for CI environment
+os.environ.setdefault("PYTHONPATH", BASE_DIR)
+
 # Import app modules after path setup
 from app.database.database import get_db
 from app.main import app

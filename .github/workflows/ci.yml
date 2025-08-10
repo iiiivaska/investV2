@@ -74,6 +74,7 @@ jobs:
         ACCESS_TOKEN_EXPIRE_MINUTES: 30
         REFRESH_TOKEN_EXPIRE_DAYS: 7
         TINKOFF_API_TOKEN: test-token
+        PYTHONPATH: ${{ github.workspace }}/backend
       run: |
         cd backend
         echo "Current directory: $(pwd)"
@@ -84,6 +85,8 @@ jobs:
         ls -la tests/
         echo "App directory:"
         ls -la app/
+        echo "Python modules:"
+        python -c "import sys; print('\\n'.join(sys.path))"
         echo "Running pytest discovery:"
         python -m pytest --collect-only tests/
         echo "Running tests:"
