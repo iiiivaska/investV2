@@ -111,6 +111,7 @@ python3 postgres/switch_db.py check
 - `POST /api/v1/auth/logout` - Выход
 - `GET /api/v1/users/hello` - Управление пользователями
 - `GET /api/v1/users/me` - Текущий пользователь (Bearer)
+- `POST /api/v1/users/tinkoff-token` - Сохранить персональный Tinkoff токен пользователю (Bearer)
 - `GET /api/v1/portfolio/hello` - Портфель пользователя
 - `GET /api/v1/instruments/hello` - Финансовые инструменты
 - `GET /api/v1/analytics/hello` - Аналитика и отчеты
@@ -155,7 +156,7 @@ docker-compose up --build
 - [x] Упрощенная конфигурация (только PostgreSQL)
 - [x] JWT аутентификация
 - [ ] Базовые CRUD операции
-- [ ] Интеграция с Tinkoff API
+- [x] Интеграция с Tinkoff API
 
 ### 🚀 Фаза 3: Расширенные возможности
 - [ ] Аналитика портфеля
@@ -196,5 +197,15 @@ curl -X POST http://localhost:8000/api/v1/auth/login \
 
 # Запрос текущего пользователя с Bearer токеном
 curl http://localhost:8000/api/v1/users/me \
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+
+# Установка персонального Tinkoff токена пользователю (используется продовый API)
+curl -X POST http://localhost:8000/api/v1/users/tinkoff-token \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer <ACCESS_TOKEN>" \
+  -d '{"tinkoff_api_token":"<PROD_TINKOFF_TOKEN>"}'
+
+# Демонстрационный вызов Tinkoff Invest API (список аккаунтов)
+curl http://localhost:8000/api/v1/instruments/tinkoff-demo \
   -H "Authorization: Bearer <ACCESS_TOKEN>"
 ```
