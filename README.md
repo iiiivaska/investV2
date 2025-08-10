@@ -1,5 +1,7 @@
 # 📈 InvestV2
 
+![CI](https://github.com/ваш-username/investV2/actions/workflows/ci.yml/badge.svg)
+
 Серверное приложение для управления инвестиционным портфелем с интеграцией Tinkoff Invest API.
 
 ## 🎯 Описание
@@ -118,6 +120,14 @@ python3 postgres/switch_db.py check
  - `GET /api/v1/instruments/tinkoff-demo` - Демонстрация вызова Tinkoff Invest API (Bearer)
 
 *Все endpoints возвращают JSON и готовы для разработки.*
+
+## ✅ CI (GitHub Actions)
+
+- Автоматический запуск `pytest` на каждый push и pull request.
+- Ветка `main` должна мержиться только с зелёным статусом CI.
+
+Как включить обязательное прохождение тестов:
+- В настройках репозитория → Branches → Add branch protection rule → Включить “Require status checks to pass before merging” и выбрать джобу `tests (pytest)`.
 
 ## 🐳 Docker
 
