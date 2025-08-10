@@ -21,11 +21,11 @@ from app.models.base import Base
 # access to the values within the .ini file in use.
 config = context.config
 
-# Получаем URL базы данных из настроек приложения
+# Получаем URL базы данных из переменной окружения или настроек приложения
 settings = get_settings()
 
-# Используем PostgreSQL URL
-database_url = settings.postgresql_url
+# Приоритетно используем DATABASE_URL, иначе собираем URL из компонентных настроек
+database_url = os.getenv("DATABASE_URL") or settings.postgresql_url
 
 config.set_main_option("sqlalchemy.url", database_url)
 
