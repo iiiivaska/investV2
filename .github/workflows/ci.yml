@@ -76,6 +76,17 @@ jobs:
         TINKOFF_API_TOKEN: test-token
       run: |
         cd backend
+        echo "Current directory: $(pwd)"
+        echo "Python path: $PYTHONPATH"
+        echo "Available files:"
+        ls -la
+        echo "Tests directory:"
+        ls -la tests/
+        echo "App directory:"
+        ls -la app/
+        echo "Running pytest discovery:"
+        python -m pytest --collect-only tests/
+        echo "Running tests:"
         pytest tests/ -v --tb=short
 
     - name: Upload coverage to Codecov
