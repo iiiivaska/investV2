@@ -104,7 +104,12 @@ python3 postgres/switch_db.py check
 
 ### Модули API v1
 - `GET /api/v1/auth/hello` - Аутентификация
+- `POST /api/v1/auth/register` - Регистрация
+- `POST /api/v1/auth/login` - Вход (OAuth2 Password)
+- `POST /api/v1/auth/refresh` - Обновление токенов
+- `POST /api/v1/auth/logout` - Выход
 - `GET /api/v1/users/hello` - Управление пользователями
+- `GET /api/v1/users/me` - Текущий пользователь (Bearer)
 - `GET /api/v1/portfolio/hello` - Портфель пользователя
 - `GET /api/v1/instruments/hello` - Финансовые инструменты
 - `GET /api/v1/analytics/hello` - Аналитика и отчеты
@@ -127,7 +132,7 @@ docker-compose up --build
 
 ## 🔐 Безопасность
 
-- JWT токены для аутентификации
+- JWT токены для аутентификации (OAuth2 password flow)
 - bcrypt для хеширования паролей
 - CORS настройки
 - Валидация данных через Pydantic
@@ -146,7 +151,7 @@ docker-compose up --build
 - [x] База данных (PostgreSQL)
 - [x] Организованная структура PostgreSQL утилит
 - [x] Упрощенная конфигурация (только PostgreSQL)
-- [ ] JWT аутентификация
+- [x] JWT аутентификация
 - [ ] Базовые CRUD операции
 - [ ] Интеграция с Tinkoff API
 
@@ -173,3 +178,21 @@ MIT License. См. [LICENSE](LICENSE) для деталей.
 - 📧 Email: ваш-email@example.com
 - 🐛 Issues: [GitHub Issues](https://github.com/ваш-username/investV2/issues)
 - 📖 Wiki: [GitHub Wiki](https://github.com/ваш-username/investV2/wiki)
+
+### Как аутентифицироваться
+
+```bash
+# Регистрация пользователя
+curl -X POST http://localhost:8000/api/v1/auth/register \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"user@example.com","password":"secret"}'
+
+# Логин и получение токенов
+curl -X POST http://localhost:8000/api/v1/auth/login \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'username=user@example.com&password=secret'
+
+# Запрос текущего пользователя с Bearer токеном
+curl http://localhost:8000/api/v1/users/me \
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+```
