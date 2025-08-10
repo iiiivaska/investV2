@@ -39,7 +39,6 @@ jobs:
 
       - name: Run tests
         run: |
-          cd 
-          python -m pytest -q
+          python -m pytest -q tests
 
 
