@@ -37,6 +37,14 @@ investV2/
 │   │       ├── auth.py               # Схемы авторизации
 │   │       └── user.py               # Схемы пользователя
 │   │
+│   ├── postgres/                     # 🗄️ PostgreSQL утилиты
+│   │   ├── __init__.py
+│   │   ├── init_postgres.py          # 🔧 Инициализация PostgreSQL
+│   │   ├── switch_db.py              # 🔍 Проверка статуса
+│   │   ├── POSTGRESQL_SETUP.md       # 📖 Подробное руководство
+│   │   ├── README.md                 # 📚 Документация PostgreSQL
+│   │   └── CHANGELOG.md              # 📝 История изменений
+│   │
 │   ├── migrations/                   # 🗄️ Все файлы миграций
 │   │   ├── alembic/                 # Основная директория Alembic
 │   │   │   ├── versions/           # Файлы миграций
@@ -44,7 +52,6 @@ investV2/
 │   │   │   └── script.py.mako     # Шаблон миграций
 │   │   ├── alembic.ini             # ⚙️ Конфигурация Alembic
 │   │   ├── migrate.py              # 🛠️ Утилита управления
-│   │   ├── investv2.db             # 🗄️ SQLite база данных (dev)
 │   │   ├── ALEMBIC_GUIDE.md        # 📖 Подробное руководство
 │   │   ├── ALEMBIC_EXAMPLES.md     # 🎯 Примеры использования
 │   │   └── README.md               # 📚 Документация миграций
@@ -94,12 +101,16 @@ investV2/
 8. ✅ **Docker конфигурация** для deployment
 9. ✅ **CORS настройки** для кросс-доменных запросов
 10. ✅ **Alembic миграции** настроены и работают
-11. ✅ **База данных** инициализирована (SQLite для разработки)
+11. ✅ **PostgreSQL** полностью настроен и работает
+12. ✅ **Организованная структура** PostgreSQL утилит
+13. ✅ **Упрощенная конфигурация** (только PostgreSQL)
 
 ## 🎯 Следующие шаги
 
 - [x] Настройка Alembic для миграций БД
-- [ ] Подключение к PostgreSQL (настроен SQLite для dev)
+- [x] Подключение к PostgreSQL
+- [x] Организация PostgreSQL утилит в отдельную директорию
+- [x] Упрощение конфигурации (только PostgreSQL)
 - [ ] Реализация JWT аутентификации
 - [ ] Интеграция с Tinkoff Invest API
 - [ ] Добавление тестов
@@ -112,7 +123,7 @@ investV2/
 cd backend
 python3 -m venv venv
 source venv/bin/activate
-pip install fastapi uvicorn pydantic pydantic-settings
+pip install -r requirements.txt
 python run_dev.py
 ```
 
@@ -120,6 +131,19 @@ python run_dev.py
 ```bash
 cd backend
 docker-compose up --build
+```
+
+### Настройка PostgreSQL
+```bash
+cd backend
+# Инициализация базы данных
+python3 postgres/init_postgres.py
+
+# Проверка подключения
+python3 postgres/switch_db.py check
+
+# Применение миграций
+python3 migrate.py upgrade
 ```
 
 Приложение будет доступно по адресу: http://localhost:8000/

@@ -11,6 +11,7 @@ InvestV2 — это современное FastAPI приложение для �
 - ✅ **Систему авторизации** с JWT токенами
 - ✅ **Аналитику портфеля** и отчеты
 - ✅ **Безопасное хранение данных** в PostgreSQL
+- ✅ **Простая конфигурация** с PostgreSQL по умолчанию
 
 ## 🚀 Быстрый старт
 
@@ -23,7 +24,7 @@ cd investV2
 cd backend
 python3 -m venv venv
 source venv/bin/activate
-pip install fastapi uvicorn pydantic pydantic-settings
+pip install -r requirements.txt
 python run_dev.py
 ```
 
@@ -36,6 +37,7 @@ python run_dev.py
 - **Архитектура**: [.cursor/architecture.mdс](.cursor/architecture.mdс)
 - **Структура проекта**: [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 - **Руководство backend**: [backend/README.md](backend/README.md)
+- **PostgreSQL настройка**: [backend/postgres/README.md](backend/postgres/README.md)
 
 ## 🏗️ Архитектура
 
@@ -47,6 +49,10 @@ investV2/
 │   │   ├── models/      # SQLAlchemy модели
 │   │   ├── schemas/     # Pydantic схемы
 │   │   └── core/        # Конфигурация
+│   ├── postgres/        # PostgreSQL утилиты
+│   │   ├── init_postgres.py
+│   │   ├── switch_db.py
+│   │   └── POSTGRESQL_SETUP.md
 │   ├── requirements.txt # Зависимости
 │   └── docker-compose.yml # Docker настройки
 └── .cursor/             # Документация и архитектура
@@ -59,6 +65,36 @@ investV2/
 - **Контейнеризация**: Docker, Docker Compose
 - **API**: REST + автодокументация OpenAPI/Swagger
 - **Авторизация**: JWT токены + bcrypt
+
+## 🗄️ База данных
+
+### PostgreSQL (обязательно)
+
+Проект использует PostgreSQL как основную базу данных для всех сред (разработка, тестирование, production).
+
+### Настройка PostgreSQL
+
+```bash
+# Создание пользователя и БД
+psql postgres -c "CREATE USER investv2 WITH PASSWORD 'password' CREATEDB;"
+psql postgres -c "CREATE DATABASE investv2 OWNER investv2;"
+
+# Инициализация и миграции
+python3 postgres/init_postgres.py
+python3 migrate.py upgrade
+```
+
+### Проверка статуса
+
+```bash
+# Проверка статуса
+python3 postgres/switch_db.py status
+
+# Проверка подключения
+python3 postgres/switch_db.py check
+```
+
+📖 **Подробное руководство**: [backend/postgres/POSTGRESQL_SETUP.md](backend/postgres/POSTGRESQL_SETUP.md)
 
 ## 📡 API Endpoints
 
@@ -105,11 +141,12 @@ docker-compose up --build
 - [x] Docker конфигурация
 - [x] Документация
 
-### 🔄 Фаза 2: Core функциональность
+### ✅ Фаза 2: Core функциональность (готово)
 - [x] Система миграций Alembic
-- [x] База данных (SQLite для dev)
+- [x] База данных (PostgreSQL)
+- [x] Организованная структура PostgreSQL утилит
+- [x] Упрощенная конфигурация (только PostgreSQL)
 - [ ] JWT аутентификация
-- [ ] Подключение к PostgreSQL в production
 - [ ] Базовые CRUD операции
 - [ ] Интеграция с Tinkoff API
 

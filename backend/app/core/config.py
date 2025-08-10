@@ -16,8 +16,15 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
     debug: bool = False
     
-    # База данных
-    database_url: str = "sqlite:///./migrations/investv2.db"
+    # База данных - PostgreSQL по умолчанию
+    database_url: str = "postgresql://investv2:password@localhost:5432/investv2"
+    
+    # PostgreSQL настройки (для локальной разработки)
+    postgres_host: str = "localhost"
+    postgres_port: int = 5432
+    postgres_user: str = "investv2"
+    postgres_password: str = "password"
+    postgres_db: str = "investv2"
     
     # Redis
     redis_url: str = "redis://localhost:6379/0"
@@ -47,6 +54,11 @@ class Settings(BaseSettings):
         if v and not v.startswith(("postgresql://", "sqlite:///")):
             raise ValueError("Database URL must start with postgresql:// or sqlite:///")
         return v
+    
+    @property
+    def postgresql_url(self) -> str:
+        """Создает URL для PostgreSQL из отдельных параметров"""
+        return f"postgresql://{self.postgres_user}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
 
     class Config:
         env_file = ".env"

@@ -24,8 +24,15 @@ config = context.config
 # Получаем URL базы данных из настроек приложения
 settings = get_settings()
 
-# Используем PostgreSQL URL
-database_url = settings.postgresql_url
+# Определяем URL базы данных
+if settings.database_url.startswith("sqlite://"):
+    # Для SQLite корректируем путь
+    database_url = settings.database_url
+    if database_url.startswith("sqlite:///./migrations/"):
+        database_url = database_url.replace("sqlite:///./migrations/", "sqlite:///./")
+else:
+    # Для PostgreSQL используем postgresql_url
+    database_url = settings.postgresql_url
 
 config.set_main_option("sqlalchemy.url", database_url)
 
