@@ -2,6 +2,7 @@
 Настройка подключения к базе данных PostgreSQL
 """
 from typing import Generator
+import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -11,8 +12,10 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
-# Используем PostgreSQL URL
-database_url = settings.postgresql_url
+# Определяем URL базы данных
+# Приоритетно используем переменную окружения DATABASE_URL (удобно для PaaS/Docker)
+# Если её нет — собираем URL из компонентных настроек PostgreSQL
+database_url = os.getenv("DATABASE_URL") or settings.postgresql_url
 
 # Параметры пула соединений для PostgreSQL
 pool_kwargs = {
