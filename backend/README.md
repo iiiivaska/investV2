@@ -131,6 +131,7 @@ docker-compose up postgres redis
 - `GET /api/v1/portfolio/hello` - Модуль портфеля
 - `GET /api/v1/instruments/hello` - Модуль инструментов
 - `GET /api/v1/analytics/hello` - Модуль аналитики
+ - `GET /api/v1/instruments/tinkoff-demo` - Демонстрация вызова Tinkoff Invest API (Bearer)
 
 ## 🔧 Разработка
 
@@ -278,6 +279,7 @@ docker-compose logs postgres
 - **PostgreSQL настройка**: [postgres/README.md](postgres/README.md)
 - **Подробное руководство**: [postgres/POSTGRESQL_SETUP.md](postgres/POSTGRESQL_SETUP.md)
 - **Структура проекта**: [../PROJECT_STRUCTURE.md](../PROJECT_STRUCTURE.md)
+ - **TInvest_Engine сервис**: [app/TInvest_Engine/README.md](app/TInvest_Engine/README.md)
 
 ## 📝 Лицензия
 

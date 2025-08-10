@@ -38,6 +38,7 @@ python run_dev.py
 - **Структура проекта**: [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 - **Руководство backend**: [backend/README.md](backend/README.md)
 - **PostgreSQL настройка**: [backend/postgres/README.md](backend/postgres/README.md)
+ - **TInvest_Engine сервис**: [backend/app/TInvest_Engine/README.md](backend/app/TInvest_Engine/README.md)
 
 ## 🏗️ Архитектура
 
@@ -113,6 +114,7 @@ python3 postgres/switch_db.py check
 - `GET /api/v1/portfolio/hello` - Портфель пользователя
 - `GET /api/v1/instruments/hello` - Финансовые инструменты
 - `GET /api/v1/analytics/hello` - Аналитика и отчеты
+ - `GET /api/v1/instruments/tinkoff-demo` - Демонстрация вызова Tinkoff Invest API (Bearer)
 
 *Все endpoints возвращают JSON и готовы для разработки.*
 

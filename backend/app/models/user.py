@@ -30,6 +30,9 @@ class User(Base):
     
     # Временные метки
     last_login: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    # Интеграция с Tinkoff Invest API
+    tinkoff_api_token: Mapped[Optional[str]] = mapped_column(String(1024), nullable=True)
     
     def __repr__(self) -> str:
         return f"<User(id={self.id}, email='{self.email}')>"

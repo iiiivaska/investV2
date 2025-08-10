@@ -32,6 +32,11 @@ investV2/
 │   │   │   ├── base.py               # Базовая модель
 │   │   │   └── user.py               # Модель пользователя
 │   │   │
+│   │   ├── TInvest_Engine/           # 🔌 Сервис интеграции с Tinkoff Invest API
+│   │   │   ├── __init__.py           # Инициализация сервиса
+│   │   │   ├── client.py             # Клиент-обертка над SDK
+│   │   │   └── README.md             # Документация сервиса
+│   │   │
 │   │   └── schemas/                  # Pydantic схемы
 │   │       ├── __init__.py
 │   │       ├── auth.py               # Схемы авторизации
@@ -88,6 +93,7 @@ investV2/
 - `GET /api/v1/users/me` - Текущий пользователь (Bearer)
 - `GET /api/v1/portfolio/hello` - Модуль портфеля
 - `GET /api/v1/instruments/hello` - Модуль инструментов
+- `GET /api/v1/instruments/tinkoff-demo` - Демонстрация вызова Tinkoff Invest API
 - `GET /api/v1/analytics/hello` - Модуль аналитики
 
 ### Документация API

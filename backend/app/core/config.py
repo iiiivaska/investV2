@@ -44,7 +44,7 @@ class Settings(BaseSettings):
     
     # Tinkoff API
     tinkoff_token: Optional[str] = None
-    tinkoff_sandbox: bool = True
+    tinkoff_sandbox: bool = False
     
     # CORS
     allowed_origins: list = ["*"]
