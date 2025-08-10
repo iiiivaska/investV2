@@ -1,6 +1,6 @@
 # 📈 InvestV2
 
-![CI](https://github.com/ваш-username/investV2/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/iiiivaska/investV2/actions/workflows/ci.yml/badge.svg)
 
 Серверное приложение для управления инвестиционным портфелем с интеграцией Tinkoff Invest API.
 
