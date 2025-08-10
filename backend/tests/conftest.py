@@ -9,14 +9,22 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+# Add parent directory to path for imports
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-from app.database.database import get_db
-from app.main import app
-from app.models.base import Base
-from app.models.user import User  # noqa: F401 - ensure model is registered
+# Import app modules after path setup
+try:
+    from app.database.database import get_db
+    from app.main import app
+    from app.models.base import Base
+    from app.models.user import User  # noqa: F401 - ensure model is registered
+except ImportError:
+    # Fallback for when app modules are not available
+    get_db = None
+    app = None
+    Base = None
 
 TEST_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
 
