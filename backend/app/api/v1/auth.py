@@ -39,9 +39,6 @@ async def auth_hello() -> dict:
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def register(user_in: UserCreate, db: Session = Depends(get_db)) -> UserRead:
     """Регистрация нового пользователя"""
-    if db is None:
-        raise HTTPException(status_code=503, detail="Database unavailable")
-    
     existing = db.query(User).filter(User.email == user_in.email).first()
     if existing:
         raise HTTPException(status_code=400, detail="User already exists")
@@ -67,9 +64,6 @@ def login(
     db: Session = Depends(get_db),
 ) -> Token:
     """Вход пользователя: возвращает access и refresh токены"""
-    if db is None:
-        raise HTTPException(status_code=503, detail="Database unavailable")
-    
     user = db.query(User).filter(User.email == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(

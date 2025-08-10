@@ -6,7 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1 import analytics, auth, instruments, portfolio, users
 from app.core.config import get_settings
-from app.database.database import init_database
 
 settings = get_settings()
 
@@ -37,36 +36,6 @@ app.include_router(
 app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytics"])
 
 
-@app.on_event("startup")
-async def startup_event():
-    """Инициализация при старте"""
-    print("=" * 50)
-    print("Starting InvestV2 API...")
-    print(f"App: {settings.app_name} v{settings.app_version}")
-    print(f"Debug mode: {settings.debug}")
-    
-    # Проверяем конфигурацию БД
-    print(f"Database configured: {settings.has_database_config}")
-    if settings.database_url:
-        print(f"Database URL: {settings.database_url[:20]}...")
-    else:
-        print("Using default database configuration")
-    
-    print("Initializing database connection...")
-    try:
-        db_success = init_database()
-        if db_success:
-            print("✅ Database initialization completed successfully")
-        else:
-            print("⚠️  Database initialization skipped - no configuration")
-    except Exception as e:
-        print(f"❌ Database initialization failed: {e}")
-        print("Application will continue without database")
-    
-    print("InvestV2 API startup completed")
-    print("=" * 50)
-
-
 @app.get("/")
 async def root():
     """Базовый endpoint для проверки работоспособности API"""
@@ -75,16 +44,6 @@ async def root():
         "version": "1.0.0",
         "status": "running",
         "docs": "/docs",
-    }
-
-
-@app.get("/test")
-async def test():
-    """Простой тестовый endpoint без зависимостей"""
-    return {
-        "message": "Test endpoint working!",
-        "timestamp": "2024-01-01T00:00:00Z",
-        "status": "ok"
     }
 
 

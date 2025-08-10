@@ -1,0 +1,39 @@
+services:
+  # FastAPI приложение - переопределяем для разработки
+  api:
+    environment:
+      - DATABASE_URL=postgresql://investv2:password@postgres:5432/investv2
+      - DEBUG=true
+    volumes:
+      - .:/app
+      - /app/venv  # Исключаем venv из монтирования
+
+  # PostgreSQL база данных для разработки
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: investv2
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: investv2
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - investv2-network
+
+  # pgAdmin для управления БД (только для разработки)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@investv2.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - investv2-network
+
+volumes:
+  postgres_data:
