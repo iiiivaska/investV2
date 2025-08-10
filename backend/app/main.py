@@ -1,6 +1,8 @@
 """
 Главный модуль FastAPI приложения InvestV2
 """
+import os
+import subprocess
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -25,6 +27,22 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Автоматический запуск миграций при старте приложения (опционально)
+@app.on_event("startup")
+async def run_migrations_on_startup() -> None:
+    if not settings.run_migrations_on_startup:
+        return
+    # Учитываем DATABASE_URL из окружения, alembic его подхватит из env.py
+    try:
+        subprocess.run(
+            ["python", os.path.join(os.path.dirname(__file__), "..", "migrate.py"), "upgrade"],
+            check=True,
+        )
+    except Exception:
+        # Не прерываем запуск приложения, если миграции не удались
+        # Логи uvicorn покажут ошибку выполнения
+        pass
 
 # API routes
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["authentication"])

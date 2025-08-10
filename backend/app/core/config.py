@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     app_name: str = "InvestV2"
     app_version: str = "1.0.0"
     debug: bool = False
+    # Запуск миграций при старте приложения
+    run_migrations_on_startup: bool = True
 
     # База данных - PostgreSQL по умолчанию
     database_url: str = "postgresql://investv2:password@localhost:5432/investv2"
